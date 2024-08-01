@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bil0w65swdko0"]
+
+[ext_resource type="PackedScene" uid="uid://yjad3mkww42m" path="res://player/Knight.tscn" id="1_opabg"]
+[ext_resource type="Texture2D" uid="uid://brmnb64hm1s4j" path="res://sprites/florest-tilemap/forest-palette02-night.png" id="2_mxx13"]
+
+[node name="tutorial" type="Node2D"]
+
+[node name="Knight" parent="." instance=ExtResource("1_opabg")]
+
+[node name="Forest-palette02-night" type="Sprite2D" parent="."]
+position = Vector2(96, -64)
+texture = ExtResource("2_mxx13")

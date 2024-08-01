@@ -1,0 +1,164 @@
+[gd_scene load_steps=9 format=3 uid="uid://yjad3mkww42m"]
+
+[ext_resource type="Script" path="res://player/Knight.gd" id="1_plbk6"]
+[ext_resource type="PackedScene" uid="uid://ix4uasqtsbsp" path="res://player/items/SimpleSword.tscn" id="2_aht5y"]
+[ext_resource type="Texture2D" uid="uid://cy0psodnyahoe" path="res://icon.svg" id="2_ussyb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cxss8"]
+size = Vector2(64, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6mky8"]
+radius = 32.0
+
+[sub_resource type="Animation" id="Animation_hwqx5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionDamage/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:is_doging")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_ctqvm"]
+resource_name = "douge"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionDamage/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 3.76991, 6.28319]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:is_doging")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_thkjf"]
+_data = {
+"RESET": SubResource("Animation_hwqx5"),
+"douge": SubResource("Animation_ctqvm")
+}
+
+[node name="Knight" type="CharacterBody2D"]
+script = ExtResource("1_plbk6")
+
+[node name="CollisionWalls" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cxss8")
+
+[node name="CollisionDamage" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDamage"]
+shape = SubResource("CircleShape2D_6mky8")
+disabled = true
+
+[node name="Equipament" type="Node2D" parent="."]
+
+[node name="weapon" type="Node2D" parent="Equipament"]
+position = Vector2(72, 0)
+metadata/_edit_group_ = true
+
+[node name="SimpleSword" parent="Equipament/weapon" instance=ExtResource("2_aht5y")]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_ussyb")
+
+[node name="LightPlayer" type="PointLight2D" parent="."]
+texture_scale = 0.01
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_thkjf")
+}
+
+[node name="Camera" type="Camera2D" parent="."]
+visible = false
+zoom = Vector2(2, 2)
+
+[node name="Estatus" type="Control" parent="."]
+z_index = 10
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Vida" type="ProgressBar" parent="Estatus"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 0
+offset_left = -288.0
+offset_top = -160.0
+offset_right = -64.0
+offset_bottom = -144.0
+show_percentage = false
+
+[node name="Stamina" type="ProgressBar" parent="Estatus"]
+modulate = Color(0, 1, 0.0156863, 1)
+layout_mode = 0
+offset_left = -288.0
+offset_top = -136.0
+offset_right = -128.0
+offset_bottom = -120.0
+show_percentage = false
+
+[node name="Mana" type="ProgressBar" parent="Estatus"]
+modulate = Color(0, 0.117647, 1, 1)
+layout_mode = 0
+offset_left = -288.0
+offset_top = -112.0
+offset_right = -192.0
+offset_bottom = -96.0
+show_percentage = false
