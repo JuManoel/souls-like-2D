@@ -23,6 +23,7 @@ var flip_h = false
 var flip_v = false
 
 var arma = null
+var armaRotate = 0
 #Explaining the components of my Knight
 #CollisionWalls: its propose is only to collide with the wall of the game
 #Do not change it. It must be the bigest player's collisionshape
@@ -44,6 +45,7 @@ func _ready():
 	$Estatus/Mana.value = energia_max
 	
 	arma = $Equipament/weapon.get_child(0)
+	armaRotate = arma.positionRotate
 
 
 func _physics_process(delta):
@@ -63,11 +65,13 @@ func getInput():
 	is_running = Input.is_action_pressed("correr")
 	var atk = Input.is_action_just_pressed("atacar")
 	var douge = Input.is_action_just_pressed("rolar")
+	var defeder = Input.is_action_pressed("defeder")
 	if(!is_moving): 
 		is_running = false
 	move(directionX,directionY)
 	accion(atk,douge)
 	move_weapon()
+	protect(defeder)
 	
 func move(directionX,directionY):
 	if(arma.is_ataking):
@@ -114,11 +118,20 @@ func accion(atk,douge):
 func move_weapon():
 	if(!arma.is_ataking):
 		if(last_direcion.x>0):
-			$Equipament/weapon.position = Vector2(72,0)
+			$Equipament/weapon.rotation = 0
+			$Equipament/weapon.position = Vector2(armaRotate,0)
 		elif(last_direcion.x<0):
-			$Equipament/weapon.position = Vector2(-72,0)
+			$Equipament/weapon.rotation = PI
+			$Equipament/weapon.position = Vector2(-armaRotate,0)
 		if(last_direcion.x == 0):
 			if(last_direcion.y<0):
-					$Equipament/weapon.position = Vector2(0,-72)
+				$Equipament/weapon.rotation = 3*PI/2
+				$Equipament/weapon.position = Vector2(0,-armaRotate)
 			elif(last_direcion.y>0):
-								$Equipament/weapon.position = Vector2(0,72)
+				$Equipament/weapon.rotation = PI/2
+				$Equipament/weapon.position = Vector2(0,armaRotate)
+func protect(defede):
+	if(!arma.is_ataking and !is_doging and defede):
+		arma.defender()
+		return
+	arma.isNotDef()

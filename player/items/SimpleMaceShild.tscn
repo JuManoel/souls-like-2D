@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dp4qqekwfolbs"]
+
+[node name="SimpleMaceShild" type="Node2D"]
+
+[node name="Mace" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mace"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Mace"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
